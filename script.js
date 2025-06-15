@@ -32,14 +32,29 @@ const config = {
 // Create the chart
 const priceChart = new Chart(ctx, config);
 
-// Optional: Simulate price update (for fun)
+// Optional: Simulate price update
 setInterval(() => {
-    data.datasets[0].data.push(Math.random() * 5 + 145); // New random price
-    data.datasets[0].data.shift(); // Remove oldest price
+    data.datasets[0].data.push(Math.random() * 5 + 145);
+    data.datasets[0].data.shift();
     priceChart.update();
-}, 5000); // Updates every 5 seconds
+}, 5000);
 
-// Keep the trade function from before
+// Navigation functionality
+document.querySelectorAll('.nav-link').forEach(link => {
+    link.addEventListener('click', (e) => {
+        e.preventDefault(); // Prevent default anchor behavior
+        const sectionId = link.getAttribute('data-section');
+        document.querySelectorAll('.content-section').forEach(section => {
+            section.style.display = 'none'; // Hide all sections
+        });
+        document.getElementById(sectionId).style.display = 'block'; // Show selected section
+    });
+});
+
+// Show Markets section by default
+document.getElementById('markets-section').style.display = 'block';
+
+// Trade function
 function placeTrade() {
     const asset = document.getElementById('asset').value;
     const quantity = document.getElementById('quantity').value;
